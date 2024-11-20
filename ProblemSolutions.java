@@ -189,11 +189,17 @@ public class ProblemSolutions {
     public static boolean asteroidsDestroyed(int mass, int[] asteroids) {
 
         // YOUR CODE GOES HERE, CONSIDER USING ARRAYS.SORT()
+        Arrays.sort(asteroids);
+        long planet = mass;
 
-        return false;
-
+        for (int asteroid : asteroids) {
+            if (planet < asteroid) {
+                return false;
+            }
+            planet += asteroid;
+        }
+        return true;
     }
-
 
     /**
      * Method numRescueSleds
