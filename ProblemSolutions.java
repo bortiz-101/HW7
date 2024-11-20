@@ -7,42 +7,43 @@
  *
  ********************************************************************/
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ProblemSolutions {
 
     /**
      * Method SelectionSort
-     *
+     * <p>
      * This method performs a selection sort. This file will be spot checked,
      * so ENSURE you are performing a Selection Sort!
-     *
+     * <p>
      * This is an in-place sorting operation that has two function signatures. This
      * allows the second parameter to be optional, and if not provided, defaults to an
      * ascending sort. If the second parameter is provided and is false, a descending
      * sort is performed.
      *
-     * @param values        - int[] array to be sorted.
-     * @param ascending     - if true,method performs an ascending sort, else descending.
-     *                        There are two method signatures allowing this parameter
-     *                        to not be passed and defaulting to 'true (or ascending sort).
+     * @param values    - int[] array to be sorted.
+     * @param ascending - if true,method performs an ascending sort, else descending.
+     *                  There are two method signatures allowing this parameter
+     *                  to not be passed and defaulting to 'true (or ascending sort).
      */
 
-    public  void selectionSort(int[] values) {
+    public void selectionSort(int[] values) {
         selectionSort(values, true);
     }
 
-    public static void selectionSort(int[] values, boolean ascending ) {
+    public static void selectionSort(int[] values, boolean ascending) {
 
         int n = values.length;
 
         for (int i = 0; i < n - 1; i++) {
             int min = i;
             for (int j = i + 1; j < n; j++) {
-            boolean check = ascending ? values[j] < values[min] : values[j] > values[min];
-            if (check) {
-            min = j;
-            }
+                boolean check = ascending ? values[j] < values[min] : values[j] > values[min];
+                if (check) {
+                    min = j;
+                }
             }
             if (min != i) {
                 int temp = values[i];
@@ -52,35 +53,35 @@ public class ProblemSolutions {
         }
     }
 
-     // End class selectionSort
+    // End class selectionSort
 
 
     /**
-     *  Method mergeSortDivisibleByKFirst
-     *
-     *  This method will perform a merge sort algorithm. However, all numbers
-     *  that are divisible by the argument 'k', are returned first in the sorted
-     *  list. Example:
-     *        values = { 10, 3, 25, 8, 6 }, k = 5
-     *        Sorted result should be --> { 10, 25, 3, 6, 8 }
-     *
-     *        values = { 30, 45, 22, 9, 18, 39, 6, 12 }, k = 6
-     *        Sorted result should be --> { 30, 18, 6, 12, 9, 22, 39, 45 }
-     *
+     * Method mergeSortDivisibleByKFirst
+     * <p>
+     * This method will perform a merge sort algorithm. However, all numbers
+     * that are divisible by the argument 'k', are returned first in the sorted
+     * list. Example:
+     * values = { 10, 3, 25, 8, 6 }, k = 5
+     * Sorted result should be --> { 10, 25, 3, 6, 8 }
+     * <p>
+     * values = { 30, 45, 22, 9, 18, 39, 6, 12 }, k = 6
+     * Sorted result should be --> { 30, 18, 6, 12, 9, 22, 39, 45 }
+     * <p>
      * As shown above, this is a normal merge sort operation, except for the numbers
      * divisible by 'k' are first in the sequence.
      *
-     * @param values    - input array to sort per definition above
-     * @param k         - value k, such that all numbers divisible by this value are first
+     * @param values - input array to sort per definition above
+     * @param k      - value k, such that all numbers divisible by this value are first
      */
 
     public void mergeSortDivisibleByKFirst(int[] values, int k) {
 
         // Protect against bad input values
-        if (k == 0)  return;
-        if (values.length <= 1)  return;
+        if (k == 0) return;
+        if (values.length <= 1) return;
 
-        mergeSortDivisibleByKFirst(values, k, 0, values.length-1);
+        mergeSortDivisibleByKFirst(values, k, 0, values.length - 1);
     }
 
     private void mergeSortDivisibleByKFirst(int[] values, int k, int left, int right) {
@@ -98,21 +99,46 @@ public class ProblemSolutions {
      * The merging portion of the merge sort, divisible by k first
      */
 
-    private void mergeDivisbleByKFirst(int arr[], int k, int left, int mid, int right)
-    {
-        // YOUR CODE GOES HERE, THIS METHOD IS NO MORE THAN THE STANDARD MERGE PORTION
-        // OF A MERGESORT, EXCEPT THE NUMBERS DIVISIBLE BY K MUST GO FIRST WITHIN THE
-        // SEQUENCE PER THE DISCUSSION IN THE PROLOGUE ABOVE.
-        //
-        // NOTE: YOU CAN PROGRAM THIS WITH A SPACE COMPLEXITY OF O(1) OR O(N LOG N).
-        // AGAIN, THIS IS REFERRING TO SPACE COMPLEXITY. O(1) IS IN-PLACE, O(N LOG N)
-        // ALLOCATES AUXILIARY DATA STRUCTURES (TEMPORARY ARRAYS). IT WILL BE EASIER
-        // TO CODE WITH A SPACE COMPLEXITY OF O(N LOG N), WHICH IS FINE FOR PURPOSES
-        // OF THIS PROGRAMMING EXERCISES.
+    private void mergeDivisbleByKFirst(int arr[], int k, int left, int mid, int right) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
 
-        return;
+        int[] L = new int[n1 + 1];
+        int[] R = new int[n2 + 1];
 
+        for (int i = 0; i < n1; i++) {
+            L[i] = arr[left + i];
+        }
+
+        for (int j = 0; j < n2; j++) {
+            R[j] = arr[mid + 1 + j];
+        }
+
+        int i = 0, j = 0, m = left;
+
+        while (i < n1 && j < n2) {
+            if (L[i] % k == 0) {
+                arr[m++] = L[i++];
+            }
+            else if (R[j] % k == 0) {
+                arr[m++] = R[j++];
+            }
+            else if (L[i] <= R[j] && L[i] % k != 0) {
+                arr[m++] = L[i++];
+            }
+            else {
+                arr[m++] = R[j++];
+            }
+        }
+        while (i < n1) {
+            arr[m++] = L[i++];
+        }
+        while (j < n2) {
+            arr[m++] = R[j++];
+        }
     }
+
+
 
 
     /**
