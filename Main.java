@@ -177,7 +177,7 @@ class Main {
         if ( ! numRescueSledsFail && ps.numRescueSleds(people1, 3) != 1 ) {
             numRescueSledsFail = true;
             System.out.println("Number rescue sleds error 1, returned: "
-                              + ps.numRescueSleds(people1, 2));
+                              + ps.numRescueSleds(people1, 3));
         }
 
         if ( ! numRescueSledsFail && ps.numRescueSleds(people2, 3) != 3 ) {
